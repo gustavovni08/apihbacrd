@@ -1,37 +1,14 @@
-const {connect, endConnection} = require('../database/connect')
+const {exeQuery} = require('../database/exeQuery')
 
 async function listarUsuarios(){
-    const connection = await connect()
+    const sql = `SELECT * FROM users`
+
     try {
-        return new Promise((resolve, reject) => {
-            connection.query('SELECT * FROM users', (error, results, fields) =>{
-                if (error) {
-                    console.error(error)
-                    reject(error)
-                    return
-                }
-
-                resolve(results)
-            })
-        })    
-    } finally {
-        if(connection){
-            await endConnection(connection)
-        }
+        const response = await exeQuery(sql)
+        return response
+    } catch (error) {
+        throw error        
     }
-    
-    // const connection = await connect()
-
-    // connection.query('SELECT * FROM users', (error, results, fields) => {
-    //     if (error) {
-    //         console.error('Erro ao executar consulta:', error)
-    //         return
-    //     }
-    //     const response = results
-    //     return response
-    // })
-
-    // await endConnection(connection)
 }
 
 module.exports = {listarUsuarios}
