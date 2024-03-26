@@ -1,15 +1,13 @@
-//const {connect, endConnection} = require('../database/connect')
 const {exeQuery} = require('../database/exeQuery')
-
 
 async function listarUsuarios(){
     const sql = `SELECT * FROM users`
-    
-    try{
+
+    try {
         const response = await exeQuery(sql)
         return response
-    } catch (error){
-        throw error
+    } catch (error) {
+        throw error        
     }
 }
 
