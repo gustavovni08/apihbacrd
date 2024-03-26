@@ -36,6 +36,22 @@ async function listarCredenciados(){
     }
 }
 
-module.exports = {adicionarCredenciado, listarCredenciados}
+async function retornarEnderecoCredenciado(id){
+    const sql = `SELECT CEP, ESTADO, CIDADE, BAIRRO, LOGADOURO, NUMERO_LOGADOURO
+    FROM CREDENCIADOS 
+    WHERE COD_CREDENCIADO = ${id};`
+
+    try {
+        const response = await exeQuery(sql)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
+module.exports = { 
+    listarCredenciados,
+    adicionarCredenciado, 
+    retornarEnderecoCredenciado}
 
 

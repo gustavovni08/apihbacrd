@@ -40,4 +40,8 @@ async function listarAssociados(){
     }
 }
 
+
+
+
+
 module.exports = {adicionarAssociado, listarAssociados}
