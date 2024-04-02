@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { adicionarAssociado, listarAssociados } = require('../controllers/associados/associados')
+const { adicionarAssociado, listarAssociados, validarAssociado } = require('../controllers/associados/associados')
 
 router.post('/adicionarAssociado', async (req, res) => {
     try {
@@ -41,4 +41,26 @@ router.get('/listarAssociados', async (req, res) => {
     }
 })
 
+router.post('/validarAssociado', async (req, res) => {
+    
+    const {email, senha} = req.body
+    
+    try{
+        const response = await validarAssociado(email, senha)
+        
+        if(response.code === 200){
+            console.log(response)
+            res.status(200).json({message:'Associado autenticado!', response: response})
+        } 
+
+        if(response.code === 400){
+            console.log(response)
+            res.status(400).json({message:'Email ou Senha Inválidos'})
+        } 
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({message:'Error interno do servidor'})
+    }
+})
 module.exports = router

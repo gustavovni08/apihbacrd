@@ -18,6 +18,9 @@ app.use(credenciados)
 const servicos = require('./api/routes/servicosRoutes')
 app.use(servicos)
 
+const agendamentos = require('./api/routes/agendamentosRoutes')
+app.use(agendamentos)
+
 app.get('/', (req, res) => {
     console.log('hello world!')
     res.status(200).json({message:'hello wolrd!'})

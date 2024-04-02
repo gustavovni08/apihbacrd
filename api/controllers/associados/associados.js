@@ -40,8 +40,23 @@ async function listarAssociados(){
     }
 }
 
+async function validarAssociado(email, senha){
+    const sql = `SELECT * FROM ASSOCIADOS WHERE EMAIL = '${email}' AND SENHA = '${senha}'; `
+
+    try {
+        const response = await exeQuery(sql)
+        if (response.length > 0){
+            return { code: 200, data: response}
+        } else {
+            return {code: 400}
+        }
+    } catch (error) {
+        throw error
+    }
+}
 
 
 
 
-module.exports = {adicionarAssociado, listarAssociados}
+
+module.exports = {adicionarAssociado, listarAssociados, validarAssociado}
