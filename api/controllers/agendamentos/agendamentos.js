@@ -54,4 +54,26 @@ async function listarAgendamentosPorId(id){
 
 }
 
-module.exports = { listarAgendamentos, adicionarAgendamento, listarAgendamentosPorId}
+async function listarAgendamentosConfirmados(id){
+    const sql = `SELECT * FROM AGENDAMENTOS WHERE COD_SERVICO = ${id}`
+
+    try{
+        const data = await exeQuery(sql)
+        const response = []
+        
+        for ( const item of data){
+            response.push(item.DATA)
+        }
+
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
+module.exports = { 
+    listarAgendamentos, 
+    adicionarAgendamento, 
+    listarAgendamentosPorId,
+    listarAgendamentosConfirmados
+}

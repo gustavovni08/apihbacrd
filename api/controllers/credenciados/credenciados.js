@@ -49,9 +49,21 @@ async function retornarEnderecoCredenciado(id){
     }
 }
 
+async function listarUnicoCredenciado(id){
+    const sql = `SELECT * FROM CREDENCIADOS WHERE COD_CREDENCIADO = '${id}';`
+
+    try {
+        const response = await exeQuery(sql)
+        return response
+    } catch (error) {
+        throw error        
+    }
+}
+
 module.exports = { 
     listarCredenciados,
     adicionarCredenciado, 
+    listarUnicoCredenciado,
     retornarEnderecoCredenciado}
 
 
