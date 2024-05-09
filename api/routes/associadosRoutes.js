@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { adicionarAssociado, listarAssociados, validarAssociado } = require('../controllers/associados/associados')
+const { adicionarClienteAsaas } = require('../controllers/asaas/clientesAsaas')
 
 router.post('/adicionarAssociado', async (req, res) => {
     try {
@@ -19,9 +20,17 @@ router.post('/adicionarAssociado', async (req, res) => {
                 plano, 
                 telefone} = req.body
 
-        await adicionarAssociado(nome, email, senha, cpf, cep, estado, cidade, bairro, logadouro, numero_logadouro, data_nascimento, status, plano, telefone)
-        console.log('associado adicionado com sucesso!')
-        res.status(200).json({message:'associado adicionado com sucesso!'})
+        const asaasResponse = await adicionarClienteAsaas(nome,cpf)
+        console.log(asaasResponse)
+
+        if(asaasResponse.id){
+            const databaseResponse  = await adicionarAssociado(nome, email, senha, cpf, cep, estado, cidade, bairro, logadouro, numero_logadouro, data_nascimento, status, plano, telefone, asaasResponse.id)
+            console.log('associado adicionado com sucesso!')
+            res.status(200).json({message:'associado adicionado com sucesso!', data:{'database:':databaseResponse, 'asaas:':asaasResponse}})
+        } else {
+            res.status(500).json({message:'Error interno do servidor, codigo asaas'})
+        }
+
 
     } catch (error) {
         console.error(error)

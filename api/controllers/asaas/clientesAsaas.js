@@ -1,0 +1,34 @@
+const {headers, url} = require('./AsaasConfg')
+const axios = require('axios')
+
+async function adicionarClienteAsaas(nome, cpf){
+
+    const body = {
+        name: nome,
+        cpfCnpj: cpf
+    }
+
+    try{
+        const response = await axios.post(`${url}/customers`, body, {headers})
+        return response.data
+    }catch(error){
+        throw error
+    }
+
+}
+
+
+async function listarClientesAsaas(){
+
+    try {
+        const {data} = await axios.get(`${url}/customers`, {headers})
+        return data
+    } catch (error) {
+        throw error        
+    }
+
+}
+
+
+module.exports = {adicionarClienteAsaas, listarClientesAsaas}
+
