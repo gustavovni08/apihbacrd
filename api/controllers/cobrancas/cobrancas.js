@@ -14,8 +14,31 @@ async function inserirNovaCobranca( cod_agendamento, cod_mensalidade, tipo, stat
 
 }
 
-async function listarCobrancaPorCodigo(id, tipo){
-    
+async function listarUnicaCobrancaDeAgendamento(id){
+    const sql = `SELECT * FROM COBRANCAS WHERE COD_AGENDAMENTO = ${id}`
+
+    try {
+        const response = await exeQuery(sql)
+        return response
+    } catch (error) {
+        throw error        
+    }
 }
 
-module.exports = {inserirNovaCobranca}
+
+async function listarUnicaCobrancaDeMensalidade(id){
+    const sql = `SELECT * FROM COBRANCAS WHERE COD_MENSALIDADE = ${id}`
+
+    try {
+        const response = await exeQuery(sql)
+        return response
+    } catch (error) {
+        throw error        
+    }
+}
+
+module.exports = {
+    inserirNovaCobranca,
+    listarUnicaCobrancaDeAgendamento,
+    listarUnicaCobrancaDeMensalidade
+}
