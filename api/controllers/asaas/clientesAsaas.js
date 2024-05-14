@@ -1,11 +1,13 @@
 const {headers, url} = require('./AsaasConfg')
 const axios = require('axios')
 
-async function adicionarClienteAsaas(nome, cpf){
+async function adicionarClienteAsaas(nome, cpf, email, mobilePhone){
 
     const body = {
         name: nome,
-        cpfCnpj: cpf
+        cpfCnpj: cpf,
+        email: email,
+        mobilePhone: mobilePhone,
     }
 
     try{

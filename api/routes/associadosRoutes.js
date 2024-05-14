@@ -20,7 +20,7 @@ router.post('/adicionarAssociado', async (req, res) => {
                 plano, 
                 telefone} = req.body
 
-        const asaasResponse = await adicionarClienteAsaas(nome,cpf)
+        const asaasResponse = await adicionarClienteAsaas(nome,cpf, email, telefone)
         console.log(asaasResponse)
 
         if(asaasResponse.id){
