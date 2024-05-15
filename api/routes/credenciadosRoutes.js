@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { adicionarCredenciado, listarCredenciados, retornarEnderecoCredenciado } = require('../controllers/credenciados/credenciados')
+const { adicionarCredenciado, listarCredenciados, retornarEnderecoCredenciado, listarUnicoCredenciado } = require('../controllers/credenciados/credenciados')
 
 router.get('/listarCredenciados', async (req, res) => {
     try {
@@ -48,6 +48,18 @@ router.post('/adicionarCredenciado', async (req, res) =>{
 
         console.log('Credenciado adicionado com sucesso!')
         res.status(200).json({message:'Credenciado adicionado com sucesso!'})
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({message:'Erro interno do servidor'})
+    }
+})
+
+router.get('/listarUnicoCredenciado/:id', async (req, res) => {
+    const {id} = req.params
+
+    try{
+    const response = await listarUnicoCredenciado(id)
+    res.status(200).json({message:'credenciado:', response:response})
     } catch (error) {
         console.error(error)
         res.status(500).json({message:'Erro interno do servidor'})
