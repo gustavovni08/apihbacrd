@@ -21,6 +21,12 @@ app.use(servicos)
 const agendamentos = require('./api/routes/agendamentosRoutes')
 app.use(agendamentos)
 
+const cobrancas = require('./api/routes/cobrancasRoutes')
+app.use(cobrancas)
+
+const asaas = require('./api/routes/asaasRoutes')
+app.use(asaas)
+
 app.get('/', (req, res) => {
     console.log('hello world!')
     res.status(200).json({message:'hello wolrd!'})

@@ -81,4 +81,18 @@ router.get('/retornarEnderecoCredenciado', async (req, res) => {
     }
 })
 
+router.get('/listarUnicoCredenciado/:id', async (req, res) => {
+    const {id} = req.params
+
+    try {
+        const response = await listarUnicoCredenciado(id)
+        console.log(response)
+        res.status(200).json({message:'Credenciado:', response:response})
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({message:'erro interno do servidor'})   
+    }
+
+})
+
 module.exports = router

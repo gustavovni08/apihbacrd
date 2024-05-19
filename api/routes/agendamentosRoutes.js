@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { adicionarAgendamento, listarAgendamentos, listarAgendamentosPorId } = require('../controllers/agendamentos/agendamentos')
+const { adicionarAgendamento, listarAgendamentos, listarAgendamentosPorId, listarAgendamentosConfirmados, retornarMaiorCodigoAgendamento } = require('../controllers/agendamentos/agendamentos')
 
 router.post('/adicionarAgendamento', async (req, res) =>{
     const {
@@ -10,7 +10,8 @@ router.post('/adicionarAgendamento', async (req, res) =>{
         valor,
         data,
         hora,
-        descricao
+        descricao,
+        status
     } = req.body
 
     try {
@@ -21,14 +22,15 @@ router.post('/adicionarAgendamento', async (req, res) =>{
             valor,
             data,
             hora,
-            descricao)
+            descricao,
+            status)
 
 
         console.log('Agendamento inserido com sucesso!')
         res.status(200).json({message:'Agendamento inserido com sucesso!'})
     } catch (error) {
         console.error(error)
-        res.status(500).json({message:'Erro interno do servidor', error:error})
+        res.status(500).json({message:'Erro interno do servidor', error:error.message})
     }
 })
 
@@ -40,7 +42,7 @@ router.get('/listarAgendamentos', async (req, res) => {
         res.status(200).json({message:'lista de agendamentos:', response:response})
     } catch(error){
         console.error(error)
-        res.status(500).json({message:'Erro interno do servidor', error:error})
+        res.status(500).json({message:'Erro interno do servidor', error:error.message})
     }
 })
 
@@ -53,9 +55,35 @@ router.get('/listarAgendamentosPorId', async (req, res) => {
         res.status(200).json({message:'lista de agendamento', response:response})
     }catch(error){
         console.error(error)
-        res.status(500).json({message:'Erro interno do servidor', error:error})
+        res.status(500).json({message:'Erro interno do servidor', error:error.message})
     }
 
+})
+
+router.get('/listarAgendamentosConfirmados/:id', async (req,res) =>{
+
+    const {id} = req.params
+
+    try{
+        const response = await listarAgendamentosConfirmados(id)
+        console.log(response)
+        res.status(200).json({message:'lista de agendamentos confirmados', response:response})
+    }catch(error){
+        console.error(error)
+        res.status(500).json({message:'Erro interno do servidor', error:error.message})
+    }
+
+})
+
+router.get('/listarMaiorCodigoAgendamento', async (req, res) => {
+    try {
+        const response = await retornarMaiorCodigoAgendamento()
+        console.log(response)
+        res.status(200).json({message:'maior agendamento', response:response})
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({message:'Erro interno do servidor', error:error})        
+    }
 })
 
 

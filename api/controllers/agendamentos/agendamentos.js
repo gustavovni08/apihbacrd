@@ -19,7 +19,8 @@ async function adicionarAgendamento(
                                     valor, 
                                     data, 
                                     hora,
-                                    descricao){
+                                    descricao,
+                                    status){
     const endereco = await retornarEnderecoCredenciado(cod_credenciado)
     
     const cep = endereco[0].CEP
@@ -30,9 +31,9 @@ async function adicionarAgendamento(
     const numero_logadouro = endereco[0].NUMERO_LOGADOURO
 
      const sql = `INSERT INTO AGENDAMENTOS 
-     (COD_ASSOCIADO, COD_CREDENCIADO, COD_SERVICO, VALOR, CEP, ESTADO, CIDADE, BAIRRO, LOGADOURO, NUMERO_LOGADOURO, DATA, HORA, DESCRICAO) 
+     (COD_ASSOCIADO, COD_CREDENCIADO, COD_SERVICO, VALOR, CEP, ESTADO, CIDADE, BAIRRO, LOGADOURO, NUMERO_LOGADOURO, DATA, HORA, DESCRICAO, STATUS) 
      VALUES 
-     ( '${cod_associado}', '${cod_credenciado}', '${cod_servico}', '${valor}', '${cep}', '${estado}', '${cidade}', '${bairro}', '${logadouro}', '${numero_logadouro}', '${data}', '${hora}', '${descricao}');`
+     ( '${cod_associado}', '${cod_credenciado}', '${cod_servico}', '${valor}', '${cep}', '${estado}', '${cidade}', '${bairro}', '${logadouro}', '${numero_logadouro}', '${data}', '${hora}', '${descricao}', '${status}');`
     
     try {
         await exeQuery(sql)
@@ -54,4 +55,40 @@ async function listarAgendamentosPorId(id){
 
 }
 
-module.exports = { listarAgendamentos, adicionarAgendamento, listarAgendamentosPorId}
+async function listarAgendamentosConfirmados(id){
+    const sql = `SELECT * FROM AGENDAMENTOS WHERE COD_SERVICO = ${id}`
+
+    try{
+        const data = await exeQuery(sql)
+        const response = []
+        
+        for ( const item of data){
+            response.push(item.DATA)
+        }
+
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
+async function retornarMaiorCodigoAgendamento(){
+    const sql = `SELECT MAX(COD_AGENDAMENTO) AS MAIOR_COD_AGENDAMENTO
+    FROM AGENDAMENTOS;`
+
+    try{
+        const data = await exeQuery(sql)
+        return data 
+    }catch(error){
+        throw error
+    }
+}
+
+module.exports = { 
+    listarAgendamentos, 
+    adicionarAgendamento, 
+    listarAgendamentosPorId,
+    retornarEnderecoCredenciado,
+    listarAgendamentosConfirmados,
+    retornarMaiorCodigoAgendamento,
+}
