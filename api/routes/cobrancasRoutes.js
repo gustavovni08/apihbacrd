@@ -22,7 +22,7 @@ router.post('/inserirCobranca', async( req, res ) => {
             console.log(billingAsaas)
             
             if(billingAsaas && billingAsaas.invoiceUrl !== undefined){
-                const cobranca = await inserirNovaCobranca(cod_agendamento, cod_mensalidade, tipo, status, descricao, billingAsaas.invoiceUrl, valor)
+                const cobranca = await inserirNovaCobranca(cod_agendamento, cod_mensalidade, tipo, status, descricao, billingAsaas.invoiceUrl, valor, billingAsaas.id)
                 res.status(200).json({mensage: 'cobranca inserida com sucesso', data:cobranca})
             } else{
                 res.status(500).json({message:'erro no asaas'})
