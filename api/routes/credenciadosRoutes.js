@@ -54,6 +54,18 @@ router.post('/adicionarCredenciado', async (req, res) =>{
     }
 })
 
+router.get('/listarUnicoCredenciado/:id', async (req, res) => {
+    const {id} = req.params
+
+    try{
+    const response = await listarUnicoCredenciado(id)
+    res.status(200).json({message:'credenciado:', response:response})
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({message:'Erro interno do servidor'})
+    }
+})
+
 router.get('/retornarEnderecoCredenciado', async (req, res) => {
     
     const {id} = req.body

@@ -85,7 +85,7 @@ async function retornarMaiorCodigoAgendamento(){
 }
 
 async function confirmarAgendamento(id){
-    const sql = `UPDATE AGENDAMENTOS SET STATUS = 'ATIVO' WHERE COD_AGENDAMENTO = '${id}';`
+    const sql = `UPDATE AGENDAMENTOS SET STATUS='ATIVO' WHERE COD_AGENDAMENTO = '${id}'`
     try{
         const data = await exeQuery(sql)
         return data 
@@ -96,6 +96,7 @@ async function confirmarAgendamento(id){
 
 module.exports = { 
     listarAgendamentos, 
+    confirmarAgendamento,
     adicionarAgendamento, 
     listarAgendamentosPorId,
     retornarEnderecoCredenciado,

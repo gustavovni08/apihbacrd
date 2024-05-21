@@ -11,7 +11,7 @@ async function adicionarClienteAsaas(nome, cpf, email, mobilePhone){
     }
 
     try{
-        const response = await axios.post(`${url}/customers`, body, {headers})
+        const response = await axios.post(`${url}customers`, body, {headers})
         return response.data
     }catch(error){
         throw error

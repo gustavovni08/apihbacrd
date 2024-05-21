@@ -1,9 +1,9 @@
 const {exeQuery} = require('../database/exeQuery')
 
-async function inserirNovaCobranca( cod_agendamento, cod_mensalidade, tipo, status, descricao, link, valor){
+async function inserirNovaCobranca( cod_agendamento, cod_mensalidade, tipo, status, descricao, link, valor, cod_pagamento){
 
-    const sql = `INSERT INTO COBRANCAS (COD_AGENDAMENTO, COD_MENSALIDADES, TIPO, STATUS, DESCRICAO, LINK, VALOR) 
-    VALUES (${cod_agendamento}, ${cod_mensalidade}, '${tipo}', '${status}', '${descricao}', '${link}', ${valor})`
+    const sql = `INSERT INTO COBRANCAS (COD_AGENDAMENTO, COD_MENSALIDADES, TIPO, STATUS, DESCRICAO, LINK, VALOR, COD_PAGAMENTO) 
+    VALUES (${cod_agendamento}, ${cod_mensalidade}, '${tipo}', '${status}', '${descricao}', '${link}', ${valor}, '${cod_pagamento}')`
 
     try {
         const response = await exeQuery(sql)
@@ -37,8 +37,8 @@ async function listarUnicaCobrancaDeMensalidade(id){
     }
 }
 
-async function confirmarCobranca(id){
-    const sql = `UPDATE COBRANCAS SET STATUS = 'ATIVO' WHERE COD_PAGAMENTO = '${id}';`
+async function confirmarPagamento(id){
+    const sql = `UPDATE COBRANCAS SET STATUS = 'PAGAMENTO_CONFIRMADO' WHERE COD_PAGAMENTO = '${id}';`
     try {
         const response = await exeQuery(sql)
         return response
@@ -47,11 +47,21 @@ async function confirmarCobranca(id){
     }
 }
 
-
+async function listarPagamentoPorId(id){
+    const sql = `SELECT * FROM COBRANCAS WHERE COD_PAGAMENTO = '${id}';`
+    try {
+        const response = await exeQuery(sql)
+        return response
+    } catch (error) {
+        throw error        
+    }
+}
 
 module.exports = {
     confirmarCobranca,
     inserirNovaCobranca,
     listarUnicaCobrancaDeAgendamento,
-    listarUnicaCobrancaDeMensalidade
+    listarUnicaCobrancaDeMensalidade,
+    listarPagamentoPorId,
+    confirmarPagamento
 }
