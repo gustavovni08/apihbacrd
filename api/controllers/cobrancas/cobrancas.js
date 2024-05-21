@@ -58,7 +58,6 @@ async function listarPagamentoPorId(id){
 }
 
 module.exports = {
-    confirmarCobranca,
     inserirNovaCobranca,
     listarUnicaCobrancaDeAgendamento,
     listarUnicaCobrancaDeMensalidade,
