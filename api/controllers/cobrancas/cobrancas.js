@@ -37,7 +37,20 @@ async function listarUnicaCobrancaDeMensalidade(id){
     }
 }
 
+async function confirmarCobranca(id){
+    const sql = `UPDATE COBRANCAS SET STATUS = 'ATIVO' WHERE COD_PAGAMENTO = '${id}';`
+    try {
+        const response = await exeQuery(sql)
+        return response
+    } catch (error) {
+        throw error        
+    }
+}
+
+
+
 module.exports = {
+    confirmarCobranca,
     inserirNovaCobranca,
     listarUnicaCobrancaDeAgendamento,
     listarUnicaCobrancaDeMensalidade
