@@ -1,12 +1,13 @@
 const { gerarCobrancaAsaas } = require("../controllers/asaas/cobrancaAsaas")
-const { inserirNovaCobranca, listarUnicaCobrancaDeAgendamento } = require("../controllers/cobrancas/cobrancas")
+const { inserirNovaCobranca, listarUnicaCobrancaDeAgendamento, listarUnicaCobrancaDeAdesao } = require("../controllers/cobrancas/cobrancas")
 
 const express = require('express')
 const router = express.Router()
 
 router.post('/inserirCobranca', async( req, res ) => {
     const { cod_agendamento, 
-            cod_mensalidade, 
+            cod_mensalidade,
+            cod_associado, 
             tipo, 
             status, 
             descricao, 
@@ -22,7 +23,7 @@ router.post('/inserirCobranca', async( req, res ) => {
             console.log(billingAsaas)
             
             if(billingAsaas && billingAsaas.invoiceUrl !== undefined){
-                const cobranca = await inserirNovaCobranca(cod_agendamento, cod_mensalidade, tipo, status, descricao, billingAsaas.invoiceUrl, valor, billingAsaas.id)
+                const cobranca = await inserirNovaCobranca(cod_agendamento, cod_mensalidade, cod_associado, tipo, status, descricao, billingAsaas.invoiceUrl, valor, billingAsaas.id, billingType)
                 res.status(200).json({mensage: 'cobranca inserida com sucesso', data:cobranca})
             } else{
                 res.status(500).json({message:'erro no asaas'})
@@ -43,6 +44,21 @@ router.get('/listarCobrancaDeAgendamento/:id', async (req, res) => {
         const response = await listarUnicaCobrancaDeAgendamento(id)
         console.log(response)
         res.status(200).json({message:'cobranca de agendamento', response:response})
+    } catch (error) {
+        console.error(error.message)
+        res.status(500).json({message:'Erro interno do servidor'})
+
+    }
+})
+
+router.get('/listarCobrancaDeAdesao/:id', async (req, res) => {
+    
+    const {id} = req.params
+    
+    try {
+        const response = await listarUnicaCobrancaDeAdesao(id)
+        console.log(response)
+        res.status(200).json({message:'cobranca de adesao', response:response})
     } catch (error) {
         console.error(error.message)
         res.status(500).json({message:'Erro interno do servidor'})

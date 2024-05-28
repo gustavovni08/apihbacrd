@@ -56,8 +56,31 @@ async function validarAssociado(email, senha){
     }
 }
 
+async function listarUnicoAssociado(id){
+    const sql = `SELECT * FROM ASSOCIADOS WHERE COD_ASSOCIADO = '${id}'`
+
+    try {
+        const response = await exeQuery(sql)
+        return response
+    } catch (error) {
+        throw error        
+    }
+
+}
+
+async function ativarAssociado(id){
+    const sql = `UPDATE ASSOCIADOS SET STATUS = '1' WHERE COD_ASSOCIADO = '${id}'`
+
+    try {
+        const response = await exeQuery(sql)
+        return response
+    } catch (error) {
+        throw error        
+    }
+}
 
 
 
 
-module.exports = {adicionarAssociado, listarAssociados, validarAssociado}
+
+module.exports = {adicionarAssociado, listarAssociados, validarAssociado, listarUnicoAssociado, ativarAssociado}

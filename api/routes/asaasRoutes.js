@@ -1,8 +1,10 @@
 const express = require('express')
 const { gerarCobrancaAsaas } = require('../controllers/asaas/cobrancaAsaas')
 const { listarClientesAsaas } = require('../controllers/asaas/clientesAsaas')
-const { confirmarPagamento, listarPagamentoPorId } = require('../controllers/cobrancas/cobrancas')
+const { confirmarPagamento, listarPagamentoPorId, confirmarAdesao } = require('../controllers/cobrancas/cobrancas')
 const { confirmarAgendamento } = require('../controllers/agendamentos/agendamentos')
+const { listarUnicoAssociado, ativarAssociado } = require('../controllers/associados/associados')
+const { gerarAssinaturaAsaas } = require('../controllers/asaas/AssinaturasAsaas')
 const router = express.Router()
 
 router.post('/gerarCobrancaAsaas', async (req, res) => {
@@ -33,9 +35,21 @@ router.post('/pagamentoEfetuado', async (req, res) => {
         console.log(cobranca)
         console.log('cobranca mapeada com sucesso!')
 
-        if(cobranca[0].COD_MENSALIDADES == null){
+        if(cobranca[0].TIPO === 'AGENDAMENTO'){
             await confirmarAgendamento(cobranca[0].COD_AGENDAMENTO)
             console.log('agendamento confirmado com sucesso!')
+        }
+
+        if(cobranca[0].TIPO === 'ADESAO'){
+            const associado = await listarUnicoAssociado(cobranca[0].COD_ASSOCIADO)
+            await confirmarAdesao(cobranca[0].COD_COBRANCA)
+            await ativarAssociado(associado[0].COD_ASSOCIADO)
+            await gerarAssinaturaAsaas(associado[0].COD_ASAAS, cobranca[0].MODO_PAGAMENTO, cobranca[0].VALOR/2, cobranca[0].DESCRICAO)
+
+        }
+
+        if(cobranca[0].TIPO === 'MENSALIDADE'){
+            
         }
         
         await confirmarPagamento(payment.id)

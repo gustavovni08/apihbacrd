@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { adicionarAssociado, listarAssociados, validarAssociado } = require('../controllers/associados/associados')
+const { adicionarAssociado, listarAssociados, validarAssociado, listarUnicoAssociado } = require('../controllers/associados/associados')
 const { adicionarClienteAsaas } = require('../controllers/asaas/clientesAsaas')
 
 router.post('/adicionarAssociado', async (req, res) => {
@@ -71,5 +71,20 @@ router.post('/validarAssociado', async (req, res) => {
         console.error(error)
         res.status(500).json({message:'Error interno do servidor'})
     }
+})
+
+router.get('/listarUnicoAssociado/:id', async (req, res) => {
+    
+    const {id} = req.params
+    
+    try {
+        const response = await listarUnicoAssociado(id)
+        res.status(200).json({data:response})
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({message:'Error interno do servidor'})
+    }
+
+
 })
 module.exports = router
