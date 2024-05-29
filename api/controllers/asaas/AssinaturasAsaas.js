@@ -5,7 +5,7 @@ async function gerarAssinaturaAsaas(cod_asaas, billingType, valor, descricao){
 
     const body = {
         billingType: billingType,
-        cycle: 'MONTHKY',
+        cycle: 'MONTHLY',
         value: valor,
         customer: cod_asaas,
         description: descricao,
@@ -13,7 +13,7 @@ async function gerarAssinaturaAsaas(cod_asaas, billingType, valor, descricao){
     }
 
     try {
-        await axios.post(`${url}subscriptions`, body, {headers})
+        const response = await axios.post(`${url}subscriptions`, body, {headers})
         return response.data
     } catch (error) {
         throw error

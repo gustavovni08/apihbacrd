@@ -64,6 +64,20 @@ router.post('/pagamentoEfetuado', async (req, res) => {
     
 })
 
+router.get('/listarPagamentoPorId/:id', async (req, res) =>{
+    const {id} = req.params
+    console.log(id)
+
+    try {
+        const response = await listarPagamentoPorId(id)
+        console.log(response)
+        res.status(200).json({message:'cobranca do id:', data:response})
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({message:'erro interno do servidor'})
+    }
+})
+
 
 
 module.exports = router
