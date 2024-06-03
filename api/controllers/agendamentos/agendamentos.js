@@ -55,6 +55,18 @@ async function listarAgendamentosPorId(id){
 
 }
 
+async function listarAgendamentosAtivosPorId(id){
+    const sql = `SELECT * FROM AGENDAMENTOS WHERE COD_ASSOCIADO= ${id} AND STATUS = 'ATIVO'`
+
+    try {
+        const response = exeQuery(sql)
+        return response
+    } catch (error) {
+        throw error        
+    }
+
+}
+
 async function listarAgendamentosConfirmados(id){
     const sql = `SELECT * FROM AGENDAMENTOS WHERE COD_SERVICO = ${id}`
 

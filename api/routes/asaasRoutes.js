@@ -21,6 +21,7 @@ router.post('/gerarCobrancaAsaas', async (req, res) => {
     }
 })
 
+
 router.get('/listarClientes', async (req, res) => {
     const data = await listarClientesAsaas()
     console.log(data)

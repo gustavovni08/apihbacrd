@@ -60,6 +60,21 @@ router.get('/listarAgendamentosPorId', async (req, res) => {
 
 })
 
+router.get('/listarAgendamentosAtivosPorId', async (req, res) => {
+    const {id} = req.query
+
+    try{
+        const response = await listarAgendamentosPorId(id)
+        console.log(response)
+        res.status(200).json({message:'lista de agendamento', response:response})
+    }catch(error){
+        console.error(error)
+        res.status(500).json({message:'Erro interno do servidor', error:error.message})
+    }
+
+})
+
+
 router.get('/listarAgendamentosConfirmados/:id', async (req,res) =>{
 
     const {id} = req.params
