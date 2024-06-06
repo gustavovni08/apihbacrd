@@ -68,6 +68,17 @@ async function listarUnicoAssociado(id){
 
 }
 
+async function listarUnicoAssociadoCodAsaas(id){
+    const sql = `SELECT * FROM ASSOCIADOS WHERE COD_ASAAS = '${id}';`
+
+    try {
+        const response = await exeQuery(sql)
+        return response
+    } catch (error) {
+        throw error        
+    }
+}
+
 async function ativarAssociado(id){
     const sql = `UPDATE ASSOCIADOS SET STATUS = '1' WHERE COD_ASSOCIADO = '${id}'`
 
@@ -83,4 +94,4 @@ async function ativarAssociado(id){
 
 
 
-module.exports = {adicionarAssociado, listarAssociados, validarAssociado, listarUnicoAssociado, ativarAssociado}
+module.exports = {adicionarAssociado, listarAssociados, validarAssociado, listarUnicoAssociado, ativarAssociado, listarUnicoAssociadoCodAsaas}

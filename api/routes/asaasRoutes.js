@@ -3,8 +3,9 @@ const { gerarCobrancaAsaas } = require('../controllers/asaas/cobrancaAsaas')
 const { listarClientesAsaas } = require('../controllers/asaas/clientesAsaas')
 const { confirmarPagamento, listarPagamentoPorId, confirmarAdesao } = require('../controllers/cobrancas/cobrancas')
 const { confirmarAgendamento } = require('../controllers/agendamentos/agendamentos')
-const { listarUnicoAssociado, ativarAssociado } = require('../controllers/associados/associados')
+const { listarUnicoAssociado, ativarAssociado, listarUnicoAssociadoCodAsaas } = require('../controllers/associados/associados')
 const { gerarAssinaturaAsaas } = require('../controllers/asaas/AssinaturasAsaas')
+const { inserirMensalidade } = require('../controllers/mensalidades/mensalidades')
 const router = express.Router()
 
 router.post('/gerarCobrancaAsaas', async (req, res) => {
@@ -62,6 +63,26 @@ router.post('/pagamentoEfetuado', async (req, res) => {
         res.status(500).json({message:'erro interno do servidor'})
     }
 
+    
+})
+
+router.post('/cobrancaGerada', async (req, res) => {
+    const {payment} = req.body
+    console.log(payment)
+    try {
+        if(payment.subscription){
+            const associado = await listarUnicoAssociadoCodAsaas(payment.customer)
+            const mensalidade =  await inserirMensalidade(associado[0].COD_ASSOCIADO, payment.value, 'MENSALIDADE HBCARD', payment.dueDate)
+            
+            res.status(200).json({message:'cobranca registrada com sucesso!'})    
+        }else{
+            res.status(200).json({message:'cobranca registrada com sucesso!'})    
+        }
+  
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({message:'erro interno do servidor'})
+    }
     
 })
 

@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { adicionarAgendamento, listarAgendamentos, listarAgendamentosPorId, listarAgendamentosConfirmados, retornarMaiorCodigoAgendamento } = require('../controllers/agendamentos/agendamentos')
+const { adicionarAgendamento, listarAgendamentos, listarAgendamentosPorId, listarAgendamentosAtivosPorId, listarAgendamentosConfirmados, retornarMaiorCodigoAgendamento } = require('../controllers/agendamentos/agendamentos')
 
 router.post('/adicionarAgendamento', async (req, res) =>{
     const {
@@ -64,7 +64,7 @@ router.get('/listarAgendamentosAtivosPorId', async (req, res) => {
     const {id} = req.query
 
     try{
-        const response = await listarAgendamentosPorId(id)
+        const response = await listarAgendamentosAtivosPorId(id)
         console.log(response)
         res.status(200).json({message:'lista de agendamento', response:response})
     }catch(error){

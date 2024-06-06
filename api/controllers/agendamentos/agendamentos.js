@@ -113,5 +113,6 @@ module.exports = {
     listarAgendamentosPorId,
     retornarEnderecoCredenciado,
     listarAgendamentosConfirmados,
+    listarAgendamentosAtivosPorId,
     retornarMaiorCodigoAgendamento,
 }
