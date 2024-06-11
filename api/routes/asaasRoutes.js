@@ -5,7 +5,7 @@ const { confirmarPagamento, listarPagamentoPorId, confirmarAdesao, inserirNovaCo
 const { confirmarAgendamento } = require('../controllers/agendamentos/agendamentos')
 const { listarUnicoAssociado, ativarAssociado, listarUnicoAssociadoCodAsaas } = require('../controllers/associados/associados')
 const { gerarAssinaturaAsaas } = require('../controllers/asaas/AssinaturasAsaas')
-const { inserirMensalidade, retornarMaiorCodMensalidade } = require('../controllers/mensalidades/mensalidades')
+const { inserirMensalidade, retornarMaiorCodMensalidade, confirmarMensalidade } = require('../controllers/mensalidades/mensalidades')
 const router = express.Router()
 
 router.post('/gerarCobrancaAsaas', async (req, res) => {
@@ -51,7 +51,7 @@ router.post('/pagamentoEfetuado', async (req, res) => {
         }
 
         if(cobranca[0].TIPO === 'MENSALIDADE'){
-            
+            await confirmarMensalidade(cobranca[0].COD_MENSALIDADES)
         }
         
         await confirmarPagamento(payment.id)
@@ -72,7 +72,7 @@ router.post('/cobrancaGerada', async (req, res) => {
     try {
         if(payment.subscription){
             const associado = await listarUnicoAssociadoCodAsaas(payment.customer)
-            await inserirMensalidade(associado[0].COD_ASSOCIADO, payment.value, 'MENSALIDADE HBCARD', payment.dueDate)
+            await inserirMensalidade(associado[0].COD_ASSOCIADO, payment.value, 'MENSALIDADE HBCARD', payment.dueDate, payment.invoiceUrl)
             var cod_mensalidade = await retornarMaiorCodMensalidade()
             await inserirNovaCobranca(null, cod_mensalidade[0]['MAIOR_COD_MENSALIDADE'], associado[0].COD_ASSOCIADO, 'MENSALIDADE', 'AGUARDANDO_PAGAMENTO', 'MENSALIDADE HBCARD', payment.invoiceUrl, payment.value, payment.id, payment.billingType)
             res.status(200).json({message:'cobranca registrada com sucesso!'})    

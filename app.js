@@ -4,6 +4,11 @@ const app = express()
 const cors = require('cors')
 app.use(cors())
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpecs = require('./api/swagger');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -23,6 +28,9 @@ app.use(agendamentos)
 
 const cobrancas = require('./api/routes/cobrancasRoutes')
 app.use(cobrancas)
+
+const mensalidades = require('./api/routes/mensalidadesRoutes')
+app.use(mensalidades)
 
 const asaas = require('./api/routes/asaasRoutes')
 app.use(asaas)

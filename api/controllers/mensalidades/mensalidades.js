@@ -12,8 +12,8 @@ async function listarMensalidades(){
 }
 
 
-async function inserirMensalidade(cod_associado, valor, descricao, vencimento){
-    const sql = `INSERT INTO MENSALIDADES (COD_ASSOCIADO, VALOR, DESCRICAO, STATUS, VENCIMENTO) VALUES ('${cod_associado}','${valor}','${descricao}','AGUARDANDO_PAGAMENTO','${vencimento}');`
+async function inserirMensalidade(cod_associado, valor, descricao, vencimento, link){
+    const sql = `INSERT INTO MENSALIDADES (COD_ASSOCIADO, VALOR, DESCRICAO, STATUS, VENCIMENTO, LINK) VALUES ('${cod_associado}','${valor}','${descricao}','AGUARDANDO_PAGAMENTO','${vencimento}', '${link}');`
 
     try {
         const response = await exeQuery(sql)
@@ -44,4 +44,25 @@ async function retornarMaiorCodMensalidade(){
 
 }
 
-module.exports={listarMensalidades, inserirMensalidade, retornarMaiorCodMensalidade}
+async function listarMensalidadesDeUmUnicoAssociado(id){
+    const sql = `SELECT * FROM MENSALIDADES WHERE COD_ASSOCIADO = ${id}`
+    try {
+        const response = await exeQuery(sql)
+        return response
+    } catch (error) {
+        throw error        
+    }
+
+}
+
+async function confirmarMensalidade(id){
+    const sql = `UPDATE MENSALIDADES SET STATUS = 'PAGO' WHERE COD_MENSALIDADE = '${id}'`
+    try {
+        const response = await exeQuery(sql)
+        return response
+    } catch (error) {
+        throw error        
+    }
+}
+
+module.exports={listarMensalidades, inserirMensalidade, retornarMaiorCodMensalidade, listarMensalidadesDeUmUnicoAssociado, listarUnicaMensalidade, confirmarMensalidade}
