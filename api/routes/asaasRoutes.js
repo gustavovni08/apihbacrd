@@ -1,11 +1,11 @@
 const express = require('express')
 const { gerarCobrancaAsaas } = require('../controllers/asaas/cobrancaAsaas')
 const { listarClientesAsaas } = require('../controllers/asaas/clientesAsaas')
-const { confirmarPagamento, listarPagamentoPorId, confirmarAdesao } = require('../controllers/cobrancas/cobrancas')
+const { confirmarPagamento, listarPagamentoPorId, confirmarAdesao, inserirNovaCobranca } = require('../controllers/cobrancas/cobrancas')
 const { confirmarAgendamento } = require('../controllers/agendamentos/agendamentos')
 const { listarUnicoAssociado, ativarAssociado, listarUnicoAssociadoCodAsaas } = require('../controllers/associados/associados')
 const { gerarAssinaturaAsaas } = require('../controllers/asaas/AssinaturasAsaas')
-const { inserirMensalidade } = require('../controllers/mensalidades/mensalidades')
+const { inserirMensalidade, retornarMaiorCodMensalidade } = require('../controllers/mensalidades/mensalidades')
 const router = express.Router()
 
 router.post('/gerarCobrancaAsaas', async (req, res) => {
@@ -72,8 +72,9 @@ router.post('/cobrancaGerada', async (req, res) => {
     try {
         if(payment.subscription){
             const associado = await listarUnicoAssociadoCodAsaas(payment.customer)
-            const mensalidade =  await inserirMensalidade(associado[0].COD_ASSOCIADO, payment.value, 'MENSALIDADE HBCARD', payment.dueDate)
-            
+            await inserirMensalidade(associado[0].COD_ASSOCIADO, payment.value, 'MENSALIDADE HBCARD', payment.dueDate)
+            var cod_mensalidade = await retornarMaiorCodMensalidade()
+            await inserirNovaCobranca(null, cod_mensalidade[0]['MAIOR_COD_MENSALIDADE'], associado[0].COD_ASSOCIADO, 'MENSALIDADE', 'AGUARDANDO_PAGAMENTO', 'MENSALIDADE HBCARD', payment.invoiceUrl, payment.value, payment.id, payment.billingType)
             res.status(200).json({message:'cobranca registrada com sucesso!'})    
         }else{
             res.status(200).json({message:'cobranca registrada com sucesso!'})    
