@@ -2,7 +2,10 @@ const express = require('express')
 const app = express()
 
 const cors = require('cors')
-app.use(cors())
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+}))
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpecs = require('./api/swagger');

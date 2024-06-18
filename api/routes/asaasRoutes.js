@@ -33,7 +33,7 @@ router.post('/pagamentoEfetuado', async (req, res) => {
     console.log(payment)
 
     try {
-        const cobranca = await listarPagamentoPorId(payment.id)
+        const cobranca = await listarPagamentoPorId(payment.id) 
         console.log(cobranca)
         console.log('cobranca mapeada com sucesso!')
 
