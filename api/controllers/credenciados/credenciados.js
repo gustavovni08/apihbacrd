@@ -71,10 +71,27 @@ async function listarUnicoCredenciado(id){
     }
 }
 
+async function validarCredenciado(email, senha){
+    const sql = `SELECT * FROM CREDENCIADOS WHERE EMAIL = '${email}' AND SENHA = '${senha}'; `
+
+    try {
+        const response = await exeQuery(sql)
+        if (response.length > 0){
+            return { code: 200, data: response}
+        } else {
+            return {code: 400, data:response}
+        }
+    } catch (error) {
+        throw error
+    }
+}
+
 module.exports = { 
     listarCredenciados,
     adicionarCredenciado, 
     listarUnicoCredenciado,
-    retornarEnderecoCredenciado}
+    retornarEnderecoCredenciado,
+    validarCredenciado
+}
 
 

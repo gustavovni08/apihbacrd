@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { adicionarAgendamento, listarAgendamentos, listarAgendamentosPorId, listarAgendamentosAtivosPorId, listarAgendamentosConfirmados, retornarMaiorCodigoAgendamento } = require('../controllers/agendamentos/agendamentos')
+const { adicionarAgendamento, listarAgendamentos, listarAgendamentosPorId, listarAgendamentosAtivosPorId, listarAgendamentosConfirmados, retornarMaiorCodigoAgendamento, listarAgendamentosAtivosDeUmCredenciado } = require('../controllers/agendamentos/agendamentos')
 
 router.post('/adicionarAgendamento', async (req, res) =>{
     const {
@@ -101,5 +101,16 @@ router.get('/listarMaiorCodigoAgendamento', async (req, res) => {
     }
 })
 
+router.get('/listarAgendamentosAtivosDeUnicoCredenciado/:id', async (req, res) =>{
+    const {id} = req.params
+
+    try {
+        const response = await listarAgendamentosAtivosDeUmCredenciado(id)
+        res.status(200).json({message:'lista de agendamentos confirmados', response:response})
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({message:'Erro interno do servidor', error:error})        
+    }
+})
 
 module.exports = router

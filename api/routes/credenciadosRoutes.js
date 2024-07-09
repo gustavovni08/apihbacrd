@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { adicionarCredenciado, listarCredenciados, retornarEnderecoCredenciado, listarUnicoCredenciado } = require('../controllers/credenciados/credenciados')
+const { adicionarCredenciado, listarCredenciados, retornarEnderecoCredenciado, listarUnicoCredenciado, validarCredenciado } = require('../controllers/credenciados/credenciados')
 
 router.get('/listarCredenciados', async (req, res) => {
     try {
@@ -93,6 +93,29 @@ router.get('/listarUnicoCredenciado/:id', async (req, res) => {
         res.status(500).json({message:'erro interno do servidor'})   
     }
 
+})
+
+router.post('/validarCredenciado', async (req, res) => {
+    
+    const {email, senha} = req.body
+    
+    try{
+        const response = await validarCredenciado(email, senha)
+        
+        if(response.code === 200){
+            console.log(response)
+            res.status(200).json({message:'Associado autenticado!', response: response})
+        } 
+
+        if(response.code === 400){
+            console.log(response)
+            res.status(400).json({message:'Email ou Senha Inválidos', data: response})
+        } 
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({message:'Error interno do servidor'})
+    }
 })
 
 module.exports = router
