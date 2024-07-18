@@ -12,10 +12,11 @@ async function adicionarCredenciado(
     bairro,
     logadouro,
     numero_logadouro,
-    status
+    status,
+    walletId
 ){
-    const sql = `INSERT INTO CREDENCIADOS (NOME_CREDENCIADO, CNPJ, EMAIL, TELEFONE, SENHA, CEP, ESTADO, CIDADE, BAIRRO, LOGADOURO, NUMERO_LOGADOURO, STATUS)
-                VALUES ('${nome}', '${cnpj}', '${email}', '${telefone}', '${senha}', '${cep}', '${estado}', '${cidade}', '${bairro}', '${logadouro}', '${numero_logadouro}', ${status})`
+    const sql = `INSERT INTO CREDENCIADOS (NOME_CREDENCIADO, CNPJ, EMAIL, TELEFONE, SENHA, CEP, ESTADO, CIDADE, BAIRRO, LOGADOURO, NUMERO_LOGADOURO, STATUS, COD_ASAAS)
+                VALUES ('${nome}', '${cnpj}', '${email}', '${telefone}', '${senha}', '${cep}', '${estado}', '${cidade}', '${bairro}', '${logadouro}', '${numero_logadouro}', ${status}, '${walletId}')`
 
     try {
         const response = await exeQuery(sql)

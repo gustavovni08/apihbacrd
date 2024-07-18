@@ -1,8 +1,8 @@
 const {exeQuery} = require('../database/exeQuery')
 
-async function adicionarServico(codigo_credenciado, data, horarios, descricao, valor, tipo){
-    const sql = `INSERT INTO SERVICOS (CODIGO_CREDENCIADO, DATA, HORARIOS, DESCRICAO, VALOR, TIPO) 
-                 VALUES ('${codigo_credenciado}', '${data}', '${horarios}', '${descricao}', ${valor}, '${tipo}');`
+async function adicionarServico(codigo_credenciado, data, horarios, descricao, valor, tipo, split){
+    const sql = `INSERT INTO SERVICOS (CODIGO_CREDENCIADO, DATA, HORARIOS, DESCRICAO, VALOR, TIPO, SPLIT) 
+                 VALUES ('${codigo_credenciado}', '${data}', '${horarios}', '${descricao}', ${valor}, '${tipo}', ${split});`
 
     try {
         const response = await exeQuery(sql)

@@ -26,7 +26,8 @@ router.post('/adicionarCredenciado', async (req, res) =>{
         bairro,
         logadouro,
         numero_logadouro,
-        status
+        status,
+        walletId
 
     } = req.body
 
@@ -43,7 +44,8 @@ router.post('/adicionarCredenciado', async (req, res) =>{
             bairro,
             logadouro,
             numero_logadouro,
-            status
+            status,
+            walletId
         )
 
         console.log('Credenciado adicionado com sucesso!')

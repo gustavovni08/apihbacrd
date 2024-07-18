@@ -20,7 +20,8 @@ router.post('/adicionarServico', async (req, res) => {
         horarios,
         descricao,
         valor,
-        tipo
+        tipo,
+        split
     } = req.body
 
     try {
@@ -30,7 +31,8 @@ router.post('/adicionarServico', async (req, res) => {
             horarios,
             descricao,
             valor,
-            tipo
+            tipo,
+            split
         )
 
         console.log('Servico adicionado com sucesso!')

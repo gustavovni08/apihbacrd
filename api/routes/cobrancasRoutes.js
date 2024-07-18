@@ -14,12 +14,14 @@ router.post('/inserirCobranca', async( req, res ) => {
             valor,
             codigo_asaas,
             billingType,
-            dueDate
+            dueDate,
+            walletId,
+            fixedValue
         
         } = req.body
 
         try {
-            const billingAsaas = await gerarCobrancaAsaas(codigo_asaas, billingType, valor, dueDate, descricao)
+            const billingAsaas = await gerarCobrancaAsaas(codigo_asaas, billingType, valor, dueDate, descricao, walletId, fixedValue)
             console.log(billingAsaas)
             
             if(billingAsaas && billingAsaas.invoiceUrl !== undefined){

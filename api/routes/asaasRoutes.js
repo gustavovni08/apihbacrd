@@ -11,9 +11,9 @@ const router = express.Router()
 router.post('/gerarCobrancaAsaas', async (req, res) => {
     try {
         const {
-            customer, billingType, value, dueDate, description
+            customer, billingType, value, dueDate, description, walletId, fixedValue
         } = req.body
-        const response = await gerarCobrancaAsaas(customer, billingType, value, dueDate, description)
+        const response = await gerarCobrancaAsaas(customer, billingType, value, dueDate, description, walletId, fixedValue)
         console.log(response)
         res.status(200).json({message:'cobranca inserida com sucesso'})
     } catch (error) {
