@@ -106,6 +106,18 @@ async function confirmarAgendamento(id){
     }
 }
 
+async function listarAgendamentosAtivosDeUmCredenciado(id){
+    const sql = `SELECT * FROM AGENDAMENTOS WHERE COD_CREDENCIADO = ${id} AND STATUS = 'ATIVO'`
+
+    try {
+        const response = await exeQuery(sql)
+        return response
+    } catch (error) {
+        throw error        
+    }
+
+}
+
 module.exports = { 
     listarAgendamentos, 
     confirmarAgendamento,
@@ -115,4 +127,5 @@ module.exports = {
     listarAgendamentosConfirmados,
     listarAgendamentosAtivosPorId,
     retornarMaiorCodigoAgendamento,
+    listarAgendamentosAtivosDeUmCredenciado
 }
