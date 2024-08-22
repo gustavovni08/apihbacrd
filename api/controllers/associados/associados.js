@@ -15,10 +15,14 @@ async function adicionarAssociado(
     status, 
     plano, 
     telefone,
-    cod_asaas){
+    cod_asaas,
+    convenio){
 
-    const sql = `INSERT INTO ASSOCIADOS (NOME_ASSOCIADO, EMAIL, SENHA, CPF, ESTADO, CIDADE, BAIRRO, LOGADOURO, NUMERO_LOGADOURO, COMPLEMENTO, DATA_NASCIMENTO, STATUS, PLANO, TELEFONE, COD_ASAAS)
-    VALUES ('${nome}', '${email}', '${senha}', '${cpf}', '${cep}', '${estado}', '${cidade}', '${bairro}', '${logadouro}', '${numero_logadouro}', ${data_nascimento}, ${status}, '${plano}', '${telefone}', '${cod_asaas}')`
+    const dataNascimento = data_nascimento.toString()
+    console.log(dataNascimento)
+
+    const sql = `INSERT INTO ASSOCIADOS (NOME_ASSOCIADO, EMAIL, SENHA, CPF, ESTADO, CIDADE, BAIRRO, LOGADOURO, NUMERO_LOGADOURO, COMPLEMENTO, DATA_NASCIMENTO, STATUS, PLANO, TELEFONE, COD_ASAAS, CONVENIO)
+    VALUES ('${nome}', '${email}', '${senha}', '${cpf}', '${cep}', '${estado}', '${cidade}', '${bairro}', '${logadouro}', '${numero_logadouro}', '${dataNascimento}', ${status}, '${plano}', '${telefone}', '${cod_asaas}', '${convenio}')`
 
     try {
         const response = await exeQuery(sql)
