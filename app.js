@@ -39,6 +39,9 @@ app.use(mensalidades)
 const asaas = require('./api/routes/asaasRoutes')
 app.use(asaas)
 
+const convenios = require('./api/routes/convenioRoutes')
+app.use(convenios)
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 app.get('/', (req, res) => {
