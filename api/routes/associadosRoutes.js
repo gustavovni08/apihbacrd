@@ -20,13 +20,16 @@ router.post('/adicionarAssociado', async (req, res) => {
                 plano, 
                 telefone,
                 convenio,
+                vendedor,
+                forma_pagamento,
+                vencimento
             } = req.body
 
         const asaasResponse = await adicionarClienteAsaas(nome,cpf, email, telefone)
         console.log(asaasResponse)
 
         if(asaasResponse.id){
-            const databaseResponse  = await adicionarAssociado(nome, email, senha, cpf, cep, estado, cidade, bairro, logadouro, numero_logadouro, data_nascimento, status, plano, telefone, asaasResponse.id, convenio)
+            const databaseResponse  = await adicionarAssociado(nome, email, senha, cpf, cep, estado, cidade, bairro, logadouro, numero_logadouro, data_nascimento, status, plano, telefone, asaasResponse.id, convenio, vendedor, forma_pagamento, vencimento)
             console.log('associado adicionado com sucesso!')
             res.status(200).json({message:'associado adicionado com sucesso!', data:{'database:':databaseResponse, 'asaas:':asaasResponse}})
         } else {

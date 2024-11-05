@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 const app = express()
 
 const cors = require('cors')
@@ -37,6 +38,8 @@ app.use(mensalidades)
 
 const asaas = require('./api/routes/asaasRoutes')
 app.use(asaas)
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 app.get('/', (req, res) => {
     console.log('hello world!')
